@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 
 import {
-  appPageLabel,
+  appPages,
   useAppPageContext,
 } from '@/contexts/AppPageContext';
 
@@ -17,7 +17,7 @@ export default function Title() {
 
   return (
     <PageTitle>
-      {appPageLabel[appPage]}
+      {appPages[appPage].label}
     </PageTitle>
   );
 }
