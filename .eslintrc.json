@@ -88,9 +88,6 @@
     "@typescript-eslint/object-curly-spacing": [
       "error",
       "always"
-    ],
-    "jest/expect-expect": [
-      "error"
     ]
   },
   "overrides": [

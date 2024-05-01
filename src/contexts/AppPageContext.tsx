@@ -1,4 +1,5 @@
 'use client';
+
 import {
   createContext,
   Dispatch,
@@ -13,9 +14,25 @@ export enum AppPage {
   PATH_SELECT,
   COURSE_SELECT,
   RULESET_SELECT,
-  PLAYER_INFO,
+  PLAYER_SELECT,
   HOLE_INFO,
 }
+
+// export const appPages: { [key in AppPage]: JSX.Element } = {
+//   [AppPage.PATH_SELECT]: <PathSelect />,
+//   [AppPage.COURSE_SELECT]: <CourseSelect />,
+//   [AppPage.RULESET_SELECT]: <RulesetSelect />,
+//   [AppPage.PLAYER_INFO]: <></>,
+//   [AppPage.HOLE_INFO]: <></>,
+// };
+
+export const appPageLabel: { [key in AppPage]: string } = {
+  [AppPage.PATH_SELECT]: 'Welcome',
+  [AppPage.COURSE_SELECT]: 'Choose a Course',
+  [AppPage.RULESET_SELECT]: 'Choose a Ruleset',
+  [AppPage.PLAYER_SELECT]: 'Choose Players',
+  [AppPage.HOLE_INFO]: 'Hole',
+};
 
 interface AppPageContext {
   appPage: AppPage;

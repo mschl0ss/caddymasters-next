@@ -1,18 +1,23 @@
-import {Inter} from "next/font/google";
-import "./globals.css";
-import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
-import theme from "@/utils/theme";
-import {CssBaseline, ThemeProvider} from "@mui/material";
-import AppPageProvider from "@/contexts/AppPageContext";
-import UxWrapper from "@/components/UxWrapper";
-import {Metadata} from "next";
-import {ReactNode} from "react";
+import '../boilerplate/globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+import {
+  CssBaseline,
+  ThemeProvider,
+} from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { Metadata } from 'next';
+import { Roboto_Slab } from 'next/font/google';
+import { ReactNode } from 'react';
+
+import UxWrapper from '@/components/UxWrapper';
+import AppPageProvider from '@/contexts/AppPageContext';
+import theme from '@/utils/theme';
+
+const font = Roboto_Slab({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Caddymasters",
-  description: "Caddymasters app",
+  title: 'Caddymasters',
+  description: 'Caddymasters app',
 };
 
 export default function RootLayout({
@@ -20,20 +25,19 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-
   return (
     <html lang="en">
-      <body className={inter.className}>
-          <AppRouterCacheProvider options={{ key: 'css' }}>
-              <CssBaseline />
-              <ThemeProvider theme={theme}>
-                  <AppPageProvider>
-                    <UxWrapper>
-                        {children}
-                    </UxWrapper>
-                  </AppPageProvider>
-              </ThemeProvider>
-          </AppRouterCacheProvider>
+      <body className={font.className}>
+        <AppRouterCacheProvider options={{ key: 'css' }}>
+          <CssBaseline />
+          <ThemeProvider theme={theme}>
+            <AppPageProvider>
+              <UxWrapper>
+                {children}
+              </UxWrapper>
+            </AppPageProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

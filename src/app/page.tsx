@@ -1,5 +1,3 @@
-
-
 // export const appPages: { [key in AppPage]: JSX.Element } = {
 //   [AppPage.PATH_SELECT]: <PathSelect />,
 //   [AppPage.COURSE_SELECT]: <CourseSelect />,
@@ -10,7 +8,7 @@
 
 function App() {
   return (
-      <>root page</>
+    <>root page</>
   );
 }
 
