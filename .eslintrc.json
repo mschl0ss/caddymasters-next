@@ -1,3 +1,117 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "next/core-web-vitals"
+  ],
+  "globals": {
+    "React": true,
+    "JSX": true
+  },
+  "env": {
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "modules-newlines"
+    //    "jest"
+  ],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "modules-newlines/import-declaration-newline": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/jsx-no-useless-fragment": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".tsx",
+          ".ts"
+        ]
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 200,
+        "tabWidth": 2
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": [
+            "nesting",
+            "id"
+          ]
+        }
+      }
+    ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
+    "@typescript-eslint/member-delimiter-style": [
+      "error"
+    ],
+    "@typescript-eslint/type-annotation-spacing": [
+      "error"
+    ],
+    "@typescript-eslint/object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "jest/expect-expect": [
+      "error"
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.spec.ts",
+        "**/*.spec.tsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    },
+    {
+      "files": [
+        "**/*.md",
+        "**/*.tsx"
+      ],
+      "rules": {
+        "no-console": "off",
+        "react-hooks/rules-of-hooks": "off"
+      }
+    }
+  ]
 }

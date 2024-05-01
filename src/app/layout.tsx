@@ -1,69 +1,24 @@
-'use client';
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import {Inter} from "next/font/google";
 import "./globals.css";
 import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
 import theme from "@/utils/theme";
-import {Box, CssBaseline, styled, ThemeProvider} from "@mui/material";
-import Footer from "@/components/Footer";
-import AppPageProvider, {AppPage, useAppPageContext} from "@/contexts/AppPageContext";
-import AppBar from "@/components/AppBar";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import AppPageProvider from "@/contexts/AppPageContext";
+import UxWrapper from "@/components/UxWrapper";
+import {Metadata} from "next";
+import {ReactNode} from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: "Caddymasters",
-//   description: "Caddymasters app",
-// };
+export const metadata: Metadata = {
+  title: "Caddymasters",
+  description: "Caddymasters app",
+};
 
-
-const DebugConsole = styled(Box)({
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    border: 'dashed 1px black',
-    width: 200,
-    height: '100vh',
-});
-
-const Wrapper = styled(Box)({
-    width: 450,
-    margin: '0 auto',
-    border: 'dashed 1px black',
-    minHeight: 750,
-    height: '932px',
-    borderRadius: 25,
-    background: 'white',
-    zIndex: '100',
-});
-
-function UxWrapper({children}: Readonly<{ children: React.ReactNode; }>) {
-    const { appPage } = useAppPageContext();
-
-    const currentPage = Object.keys(AppPage)[Object.values(AppPage)
-        .indexOf(appPage)];
-
-    return (
-        <>
-            <DebugConsole>
-                ux wrapper
-                current page:
-                {' '}
-                {currentPage}
-                <Footer />
-            </DebugConsole>
-            <Wrapper>
-                <AppBar />
-                {children}
-            </Wrapper>
-        </>
-    )
-
-}
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
 
   return (
