@@ -21,3 +21,22 @@ model User {
 
   @@map(name: "users")
 }
+
+model Course {
+  id        String @id @default(cuid())
+  name      String @unique
+  slope     Int
+  rating    Int
+  coursePar Int
+  holes     Hole[]
+}
+
+model Hole {
+  id         String @id @default(cuid())
+  holeNumber Int
+  handicap   Int
+  Course     Course @relation(fields: [courseId], references: [id])
+  courseId   String
+
+  @@unique([holeNumber, courseId], name: "courseHole")
+}

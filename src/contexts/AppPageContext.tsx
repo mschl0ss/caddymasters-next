@@ -20,14 +20,6 @@ export enum AppPage {
   HOLE_INFO,
 }
 
-// export const appPages: { [key in AppPage]: JSX.Element } = {
-//   [AppPage.PATH_SELECT]: <PathSelect />,
-//   [AppPage.COURSE_SELECT]: <CourseSelect />,
-//   [AppPage.RULESET_SELECT]: <RulesetSelect />,
-//   [AppPage.PLAYER_INFO]: <></>,
-//   [AppPage.HOLE_INFO]: <></>,
-// };
-
 export const appPages: { [key in AppPage]: { label: string; path?: string } } = {
   [AppPage.PATH_SELECT]: { label: 'Welcome', path: '/game-setup/path-select' },
   [AppPage.COURSE_SELECT]: { label: 'Choose a Course', path: '/game-setup/course-select' },
@@ -50,7 +42,6 @@ export default function AppPageProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(appPage);
     router.push(appPages[appPage].path || '/game-setup/path-select');
   }, [appPage, router]);
 
