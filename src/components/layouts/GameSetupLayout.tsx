@@ -3,10 +3,10 @@ import { ReactNode } from 'react';
 import {
   ButtonList,
   PageWrapper,
-} from '@/app/game-setup/styledComponents';
+} from '@/components/styledComponents';
 import Title from '@/components/Title';
 
-export default function Layout({
+export default function GameSetupLayout({
   children,
 }: Readonly<{
   children: ReactNode;

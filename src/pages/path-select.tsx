@@ -1,8 +1,7 @@
-'use client';
-
 import { Button } from '@mui/material';
 
-import { ButtonListItem } from '@/app/game-setup/styledComponents';
+import GameSetupLayout from '@/components/layouts/GameSetupLayout';
+import { ButtonListItem } from '@/components/styledComponents';
 import {
   AppPage,
   useAppPageContext,
@@ -15,7 +14,7 @@ export default function PathSelect() {
   const handleButtonClick = (appPage: AppPage) => setAppPage(appPage);
 
   return (
-    <>
+    <GameSetupLayout>
       <ButtonListItem>
         <Button
           onClick={() => handleButtonClick(AppPage.COURSE_SELECT)}
@@ -36,6 +35,6 @@ export default function PathSelect() {
           Join Round
         </Button>
       </ButtonListItem>
-    </>
+    </GameSetupLayout>
   );
 }

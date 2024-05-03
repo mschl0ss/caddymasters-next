@@ -1,12 +1,11 @@
-'use client';
-
 import { Button } from '@mui/material';
 import {
   useCallback,
   useMemo,
 } from 'react';
 
-import { ButtonListItem } from '@/app/game-setup/styledComponents';
+import GameSetupLayout from '@/components/layouts/GameSetupLayout';
+import { ButtonListItem } from '@/components/styledComponents';
 import {
   AppPage,
   useAppPageContext,
@@ -35,5 +34,5 @@ export default function RulesetSelect() {
     </ButtonListItem>
   )), [handleButtonClick, rulesets]);
 
-  return (<>{buttons}</>);
+  return (<GameSetupLayout>{buttons}</GameSetupLayout>);
 }

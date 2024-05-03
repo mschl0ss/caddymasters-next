@@ -2,12 +2,11 @@ export interface Hole {
   holeNumber: number;
   handicap: number;
 }
+/*
+import { Prisma } from '@prisma/client'
 
-export interface Course {
-  id?: number;
-  name: string;
-  // slope: number;
-  // rating: number;
-  // coursePar: number;
-  // holes: Hole[];
+// Build 'select' object
+const userEmail: Prisma.UserSelect = {
+  email: true,
 }
+ */

@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
 import {
   createContext,
@@ -21,9 +19,9 @@ export enum AppPage {
 }
 
 export const appPages: { [key in AppPage]: { label: string; path?: string } } = {
-  [AppPage.PATH_SELECT]: { label: 'Welcome', path: '/game-setup/path-select' },
-  [AppPage.COURSE_SELECT]: { label: 'Choose a Course', path: '/game-setup/course-select' },
-  [AppPage.RULESET_SELECT]: { label: 'Choose a Ruleset', path: '/game-setup/ruleset-select' },
+  [AppPage.PATH_SELECT]: { label: 'Welcome', path: '/path-select' },
+  [AppPage.COURSE_SELECT]: { label: 'Choose a Course', path: '/course-select' },
+  [AppPage.RULESET_SELECT]: { label: 'Choose a Ruleset', path: '/ruleset-select' },
   [AppPage.PLAYER_SELECT]: { label: 'Choose Players' },
   [AppPage.HOLE_INFO]: { label: 'Hole' },
 };
@@ -42,7 +40,7 @@ export default function AppPageProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(appPages[appPage].path || '/game-setup/path-select');
+    router.push(appPages[appPage].path || '/path-select');
   }, [appPage, router]);
 
   const contextValue = useMemo(() => ({

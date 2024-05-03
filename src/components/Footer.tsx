@@ -1,4 +1,3 @@
-'use client';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
 import {
@@ -6,7 +5,11 @@ import {
   IconButton,
   styled,
 } from '@mui/material';
-import {AppPage, useAppPageContext} from "@/contexts/AppPageContext";
+
+import {
+  AppPage,
+  useAppPageContext,
+} from '@/contexts/AppPageContext';
 
 const StyledFooterWrapper = styled(Box)({
   display: 'grid',

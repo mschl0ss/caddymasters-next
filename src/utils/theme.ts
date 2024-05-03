@@ -1,7 +1,6 @@
-'use client';
-import { Roboto } from 'next/font/google';
+import { Theme } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import {Theme} from "@mui/material";
+import { Roboto } from 'next/font/google';
 
 // const roboto = Roboto({
 //     weight: ['300', '400', '500', '700'],
@@ -16,16 +15,16 @@ import {Theme} from "@mui/material";
 // });
 
 const primary = {
-    main: '#4C9A2A',
-    light: '#76BA1B',
-    dark: '#1E5631',
-    contrastText: '#fff',
+  main: '#4C9A2A',
+  light: '#76BA1B',
+  dark: '#1E5631',
+  contrastText: '#fff',
 };
 
 const theme: Theme = createTheme({
-    palette: {
-        primary,
-    },
+  palette: {
+    primary,
+  },
 });
 
 export default theme;

@@ -1,5 +1,3 @@
-import '../boilerplate/globals.css';
-
 import {
   CssBaseline,
   ThemeProvider,
@@ -26,19 +24,16 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={font.className}>
-        <AppRouterCacheProvider options={{ key: 'css' }}>
-          <CssBaseline />
-          <ThemeProvider theme={theme}>
-            <AppPageProvider>
-              <UxWrapper>
-                {children}
-              </UxWrapper>
-            </AppPageProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
+
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+
+      <AppPageProvider>
+        <UxWrapper>
+          {children}
+        </UxWrapper>
+      </AppPageProvider>
+
+    </ThemeProvider>
   );
 }
