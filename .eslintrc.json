@@ -22,7 +22,6 @@
     "@typescript-eslint",
     "simple-import-sort",
     "modules-newlines"
-    //    "jest"
   ],
   "rules": {
     "simple-import-sort/imports": "error",
