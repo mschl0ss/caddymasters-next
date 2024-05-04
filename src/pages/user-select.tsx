@@ -1,4 +1,7 @@
-import { Button } from '@mui/material';
+import {
+  Button,
+  CircularProgress,
+} from '@mui/material';
 import {
   Course,
   User,
@@ -19,31 +22,32 @@ import {
   AppPage,
   useAppPageContext,
 } from '@/contexts/AppPageContext';
+import { useGetUsersQuery } from '@/utils/clientApi';
 
 export default function UserSelect() {
   const { setAppPage } = useAppPageContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
+
+  const { data: users = [], isLoading } = useGetUsersQuery();
 
   const handleButtonClick = useCallback((userId: string) => {
     // console.log(`${ruleset} selected`);
     // setAppPage(AppPage.USER_SELECT);
   }, []);
 
-  useLayoutEffect(() => {
-    async function fetcher() {
-      setIsLoading(true);
-      const { data: { users: userData } }: AxiosResponse<{ users: User[] }> = await axios.get('http://localhost:3000/api/courses');
-      setUsers(userData);
-      setIsLoading(false);
-    }
-    fetcher();
-  }, []);
+  // useLayoutEffect(() => {
+  //   async function fetcher() {
+  //     setIsLoading(true);
+  //     const { data: { users: userData } }: AxiosResponse<{ users: User[] }> = await axios.get('http://localhost:3000/api/courses');
+  //     setUsers(userData);
+  //     setIsLoading(false);
+  //   }
+  //   fetcher();
+  // }, []);
 
   return (
     <GameSetupLayout>
-      {users.map((user) => (
+      {isLoading ? <CircularProgress /> : users.map((user) => (
         <ButtonListItem key={user.id}>
           <Button
             onClick={() => handleButtonClick(user.id)}
@@ -62,7 +66,7 @@ export default function UserSelect() {
           variant="outlined"
           size="large"
         >
-          + New Course
+          + New User
         </Button>
       </ButtonListItem>
       <CmDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} title="Add New Golfer">

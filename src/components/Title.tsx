@@ -15,7 +15,7 @@ export default function Title() {
 
   return (
     <PageTitle>
-      {appPages[appPage].label}
+      {appPages[appPage]?.label}
     </PageTitle>
   );
 }

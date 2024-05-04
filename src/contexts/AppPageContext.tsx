@@ -30,7 +30,7 @@ export const appPages: { [key in AppPage]: AppPageDetail } = {
   [AppPage.PATH_SELECT]: { label: 'Welcome', path: '/path-select' },
   [AppPage.COURSE_SELECT]: { label: 'Choose a Course', path: '/course-select' },
   [AppPage.RULESET_SELECT]: { label: 'Choose a Ruleset', path: '/ruleset-select' },
-  [AppPage.USER_SELECT]: { label: 'Choose Players' },
+  [AppPage.USER_SELECT]: { label: 'Choose Players', path: '/user-select' },
   [AppPage.HOLE_INFO]: { label: 'Hole' },
   [AppPage.UNKNOWN]: { label: '' },
 };

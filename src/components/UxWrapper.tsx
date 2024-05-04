@@ -5,10 +5,7 @@ import {
 
 import AppBar from '@/components/AppBar';
 import Footer from '@/components/Footer';
-import {
-  AppPage,
-  useAppPageContext,
-} from '@/contexts/AppPageContext';
+import { useAppPageContext } from '@/contexts/AppPageContext';
 import {
   WRAPPER_HEIGHT,
   WRAPPER_WIDTH,
@@ -38,16 +35,13 @@ const Wrapper = styled(Box)({
 export default function UxWrapper({ children }: Readonly<{ children: React.ReactNode }>) {
   const { appPage } = useAppPageContext();
 
-  const currentPage = Object.keys(AppPage)[Object.values(AppPage)
-    .indexOf(appPage)];
-
   return (
     <>
       <DebugConsole>
         ux wrapper
         current page:
         {' '}
-        {currentPage}
+        {appPage}
         <Footer />
       </DebugConsole>
       <Wrapper>

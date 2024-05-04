@@ -14,10 +14,7 @@ type ResponseData = {
   users: User[];
 };
 
-const getUsers = async (): Promise<User[]> => {
-  const users = await prisma.user.findMany();
-  return users;
-};
+const getUsers = async (): Promise<User[]> => prisma.user.findMany();
 
 const addUser = async (user: UserCreateArgs['data']) => prisma.user.create({ data: user });
 
@@ -30,8 +27,8 @@ export default async function handler(
     res.status(200).json({ users });
   } else if (req.method === 'POST') {
     try {
-      const response = await addUser(req.body);
-      res.status(200).json({ users: [response] });
+      await addUser(req.body);
+      res.status(200);
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         res.status(400).json({ message: e.message });

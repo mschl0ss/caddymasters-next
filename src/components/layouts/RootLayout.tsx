@@ -2,7 +2,10 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@mui/material';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { Metadata } from 'next';
 import { Roboto_Slab } from 'next/font/google';
 import { ReactNode } from 'react';
@@ -12,6 +15,8 @@ import AppPageProvider from '@/contexts/AppPageContext';
 import theme from '@/utils/theme';
 
 const font = Roboto_Slab({ subsets: ['latin'] });
+
+export const queryClient = new QueryClient();
 
 export const metadata: Metadata = {
   title: 'Caddymasters',
@@ -27,13 +32,13 @@ export default function RootLayout({
 
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
-      <AppPageProvider>
-        <UxWrapper>
-          {children}
-        </UxWrapper>
-      </AppPageProvider>
-
+      <QueryClientProvider client={queryClient}>
+        <AppPageProvider>
+          <UxWrapper>
+            {children}
+          </UxWrapper>
+        </AppPageProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
