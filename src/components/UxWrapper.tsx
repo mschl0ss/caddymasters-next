@@ -9,6 +9,10 @@ import {
   AppPage,
   useAppPageContext,
 } from '@/contexts/AppPageContext';
+import {
+  WRAPPER_HEIGHT,
+  WRAPPER_WIDTH,
+} from '@/utils/constants';
 
 const DebugConsole = styled(Box)({
   position: 'absolute',
@@ -20,14 +24,15 @@ const DebugConsole = styled(Box)({
 });
 
 const Wrapper = styled(Box)({
-  width: 450,
+  width: WRAPPER_WIDTH,
   margin: '0 auto',
   border: 'dashed 1px black',
   minHeight: 750,
-  height: '932px',
+  height: WRAPPER_HEIGHT,
   borderRadius: 25,
   background: 'white',
   zIndex: '100',
+  position: 'relative',
 });
 
 export default function UxWrapper({ children }: Readonly<{ children: React.ReactNode }>) {

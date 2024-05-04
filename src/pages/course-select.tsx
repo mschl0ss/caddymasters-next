@@ -2,25 +2,31 @@ import {
   Box,
   Button,
   CircularProgress,
-  SwipeableDrawer,
 } from '@mui/material';
 import { Course } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
 import {
   useEffect,
+  useLayoutEffect,
   useState,
 } from 'react';
 
-import AppPageSetButton from '@/components/AppPageSetButton';
+import CmDialog from '@/components/CmDialog';
+import CreateUserForm from '@/components/CreateUserForm';
 import GameSetupLayout from '@/components/layouts/GameSetupLayout';
 import { ButtonListItem } from '@/components/styledComponents';
-import { AppPage } from '@/contexts/AppPageContext';
+import {
+  AppPage,
+  useAppPageContext,
+} from '@/contexts/AppPageContext';
 
 function CourseSelect() {
+  const { setAppPage } = useAppPageContext();
+
   const [isLoading, setIsLoading] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     async function fetcher() {
       setIsLoading(true);
       const { data: { courses: courseData } }: AxiosResponse<{ courses: Course[] }> = await axios.get('http://localhost:3000/api/courses');
@@ -31,56 +37,32 @@ function CourseSelect() {
   }, []);
 
   useEffect(() => { console.log('courses ', courses); }, [courses]);
+  const handleButtonClick = () => {
+    setAppPage(AppPage.RULESET_SELECT);
+  };
   const handleNewCourseClick = () => {
     // console.log('New Course selected');
     // setAppPage(AppPage.RULESET_SELECT);
   };
 
-  // const courseButtons = courses.map((course) => (
-  //   <ButtonListItem key={course.name}>
-  //     {/* <Button */}
-  //     {/*  onClick={() => handleButtonClick(course)} */}
-  //     {/*  aria-label={course.name} */}
-  //     {/*  variant="contained" */}
-  //     {/*  size="large" */}
-  //     {/* > */}
-  //     {/*  {course.name} */}
-  //     {/* </Button> */}
-  //     <AppPageSetButton label={course.name} appPage={AppPage.RULESET_SELECT} />
-  //   </ButtonListItem>
-  // ));
-
-  const toggleDrawer = () => (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event
-        && event.type === 'keydown'
-        && ((event as KeyboardEvent).key === 'Tab'
-            || (event as KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-
-    setIsDrawerOpen(!isDrawerOpen);
-  };
   return (
-    <>
+    <Box sx={{ position: 'relative' }}>
       <GameSetupLayout>
         {isLoading ? <CircularProgress /> : courses.map((course) => (
           <ButtonListItem key={course.name}>
-            {/* <Button */}
-            {/*  onClick={() => handleButtonClick(course)} */}
-            {/*  aria-label={course.name} */}
-            {/*  variant="contained" */}
-            {/*  size="large" */}
-            {/* > */}
-            {/*  {course.name} */}
-            {/* </Button> */}
-            <AppPageSetButton label={course.name} appPage={AppPage.RULESET_SELECT} />
+            <Button
+              onClick={handleButtonClick}
+              aria-label={course.name}
+              variant="contained"
+              size="large"
+            >
+              {course.name}
+            </Button>
           </ButtonListItem>
         ))}
         <ButtonListItem>
           <Button
-            onClick={() => setIsDrawerOpen(true)}
+            onClick={() => undefined}
             aria-label="New Course"
             variant="outlined"
             size="large"
@@ -89,22 +71,7 @@ function CourseSelect() {
           </Button>
         </ButtonListItem>
       </GameSetupLayout>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onOpen={() => setIsDrawerOpen(true)}
-      >
-        <Box
-          sx={{ width: 'auto' }}
-          role="presentation"
-          onClick={() => setIsDrawerOpen(false)}
-          onKeyDown={() => setIsDrawerOpen(false)}
-        >
-          heyy
-        </Box>
-      </SwipeableDrawer>
-    </>
+    </Box>
 
   );
 }

@@ -16,7 +16,7 @@ export default function RulesetSelect() {
 
   const handleButtonClick = useCallback((ruleset: string) => {
     console.log(`${ruleset} selected`);
-    setAppPage(AppPage.PLAYER_SELECT);
+    setAppPage(AppPage.USER_SELECT);
   }, [setAppPage]);
 
   const rulesets: string[] = [...Array(4).keys()].map((i) => `Game ${i}`);
