@@ -5,12 +5,18 @@ import {
   styled,
   TextField,
 } from '@mui/material';
+import { User } from '@prisma/client';
 import { useFormik } from 'formik';
 import {
   number,
   object,
   string,
 } from 'yup';
+
+import {
+  CreateUserBody,
+  useCreateUserMutation,
+} from '@/utils/clientApi';
 
 const validationSchema = object({
   firstName: string().required(),
@@ -28,19 +34,22 @@ const InputWrapper = styled(Box)({
     width: '100%',
   },
 });
-export default function CreateUserForm() {
-  // todo add react query, it's time. needed to trigger a rerender in UserSelect
+
+interface Props {
+  onSettledCb?: () => void;
+}
+
+export default function CreateUserForm({ onSettledCb }: Props) {
+  const { mutate: addUser } = useCreateUserMutation({ onSettled: onSettledCb });
   const formik = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
-      handicap: undefined,
-      email: undefined,
+      handicap: null,
+      email: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: (values) => addUser(values),
   });
 
   const textFields: { id: keyof typeof formik.values; label: string }[] = [

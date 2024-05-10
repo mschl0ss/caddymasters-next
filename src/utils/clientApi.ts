@@ -13,17 +13,27 @@ enum QueryKey {
   USERS = 'users',
 }
 
+const headers = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+};
+
 const getUsers = () => axios.get<{ users: User[] }>('http://localhost:3000/api/users')
   .then(({ data: { users } }) => users);
 
 export const useGetUsersQuery = () => useQuery({ queryKey: [QueryKey.USERS], queryFn: getUsers });
 
-const addUser = async (user: User): Promise<void> => axios
-  .post('http://localhost:3000/api/users', { user });
+export type CreateUserBody = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+const createUser = async (user: CreateUserBody): Promise<void> => axios
+  .post(
+    'http://localhost:3000/api/users',
+    user,
+    { headers },
+  );
 
-export const useAddUserMutation = (options: UseMutationOptions<void, DefaultError, User>) => useMutation({
+export const useCreateUserMutation = (options?: UseMutationOptions<void, DefaultError, CreateUserBody>) => useMutation({
   ...options,
-  mutationFn: addUser,
+  mutationFn: createUser,
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: [QueryKey.USERS] });
   },
