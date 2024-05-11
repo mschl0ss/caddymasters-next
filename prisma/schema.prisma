@@ -10,33 +10,73 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+// Core Models
 model User {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   firstName String
   lastName  String
   handicap  Int?
-  email     String   @unique
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  email     String     @unique
+  createdAt DateTime   @default(now()) @map(name: "created_at")
+  updatedAt DateTime   @updatedAt @map(name: "updated_at")
+  GameUser  GameUser[]
 
   @@map(name: "users")
 }
 
 model Course {
-  id        String @id @default(cuid())
-  name      String @unique
+  id        String   @id @default(cuid())
+  name      String   @unique
   slope     Int
   rating    Int
   coursePar Int
   holes     Hole[]
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  Game      Game[]
 }
 
 model Hole {
-  id         String @id @default(cuid())
+  id         String     @id @default(cuid())
   holeNumber Int
   handicap   Int
-  Course     Course @relation(fields: [courseId], references: [id])
+  Course     Course     @relation(fields: [courseId], references: [id])
   courseId   String
+  gameHoles  GameHole[]
+  createdAt  DateTime   @default(now()) @map(name: "created_at")
+  updatedAt  DateTime   @updatedAt @map(name: "updated_at")
 
   @@unique([holeNumber, courseId], name: "courseHole")
+}
+
+// Game Models
+model GameHole {
+  id         String   @id @default(cuid())
+  Hole       Hole     @relation(fields: [holeId], references: [id])
+  holeId     String
+  GameUser   GameUser @relation(fields: [gameUserId], references: [id])
+  gameUserId String
+  score      Int
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+}
+
+model GameUser {
+  id        String     @id @default(cuid())
+  gameId    String
+  User      User       @relation(fields: [userId], references: [id])
+  userId    String
+  Game      Game       @relation(fields: [gameId], references: [id])
+  gameHoles GameHole[]
+  createdAt DateTime   @default(now()) @map(name: "created_at")
+  updatedAt DateTime   @updatedAt @map(name: "updated_at")
+}
+
+model Game {
+  id        String     @id @default(cuid())
+  Course    Course     @relation(fields: [courseId], references: [id])
+  courseId  String
+  gameUsers GameUser[]
+  createdAt DateTime   @default(now()) @map(name: "created_at")
+  updatedAt DateTime   @updatedAt @map(name: "updated_at")
 }
