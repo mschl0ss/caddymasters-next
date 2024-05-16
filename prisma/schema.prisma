@@ -73,10 +73,19 @@ model GameUser {
 }
 
 model Game {
-  id        String     @id @default(cuid())
-  Course    Course     @relation(fields: [courseId], references: [id])
-  courseId  String
-  gameUsers GameUser[]
-  createdAt DateTime   @default(now()) @map(name: "created_at")
-  updatedAt DateTime   @updatedAt @map(name: "updated_at")
+  id           String     @id @default(cuid())
+  Course       Course     @relation(fields: [courseId], references: [id])
+  courseId     String
+  gameUsers    GameUser[]
+  Tournament   Tournament @relation(fields: [tournamentId], references: [id])
+  tournamentId String
+  createdAt    DateTime   @default(now()) @map(name: "created_at")
+  updatedAt    DateTime   @updatedAt @map(name: "updated_at")
+}
+
+model Tournament {
+  id        String   @id @default(cuid())
+  games     Game[]
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 }
