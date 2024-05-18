@@ -1,0 +1,4 @@
+/*
+PUT /courses/[courseId]
+
+ */
