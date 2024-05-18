@@ -2,16 +2,21 @@ import {
   Box,
   Button,
   CircularProgress,
+  Slide,
+  SxProps,
+  Typography,
 } from '@mui/material';
 import { Course } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
 import {
   useEffect,
   useLayoutEffect,
+  useRef,
   useState,
 } from 'react';
 
 import CmDialog from '@/components/CmDialog';
+import CourseDetails from '@/components/CourseDetails';
 import CreateUserForm from '@/components/CreateUserForm';
 import GameSetupLayout from '@/components/layouts/GameSetupLayout';
 import { ButtonListItem } from '@/components/styledComponents';
@@ -24,7 +29,9 @@ function CourseSelect() {
   const { setAppPage } = useAppPageContext();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
+  const wrapperRef = useRef<HTMLDivElement>();
 
   useLayoutEffect(() => {
     async function fetcher() {
@@ -41,12 +48,29 @@ function CourseSelect() {
     setAppPage(AppPage.RULESET_SELECT);
   };
   const handleNewCourseClick = () => {
-    // console.log('New Course selected');
-    // setAppPage(AppPage.RULESET_SELECT);
+    setIsDrawerOpen(true);
+  };
+
+  const collapseSx: SxProps = {
+    position: 'absolute',
+    bottom: 0,
+    border: 'solid 1px green;',
+    // borderRadius: '25px',
+    height: '100%',
+    width: '100%',
+    background: 'white',
+  };
+
+  const wrapperSx = {
+    position: 'relative',
+    height: 'calc(100% - 64px)',
+    borderRadius: '0 0 25px 25px',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    overflow: 'hidden',
   };
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={wrapperSx} ref={wrapperRef}>
       <GameSetupLayout>
         {isLoading ? <CircularProgress /> : courses.map((course) => (
           <ButtonListItem key={course.name}>
@@ -62,7 +86,7 @@ function CourseSelect() {
         ))}
         <ButtonListItem>
           <Button
-            onClick={() => undefined}
+            onClick={handleNewCourseClick}
             aria-label="New Course"
             variant="outlined"
             size="large"
@@ -71,6 +95,17 @@ function CourseSelect() {
           </Button>
         </ButtonListItem>
       </GameSetupLayout>
+      <Slide
+        direction="up"
+        container={wrapperRef.current}
+        in={isDrawerOpen}
+        timeout={500}
+      >
+        <Box sx={collapseSx}>
+          <Button onClick={() => setIsDrawerOpen(false)}>Close</Button>
+          <CourseDetails openAsForm />
+        </Box>
+      </Slide>
     </Box>
 
   );

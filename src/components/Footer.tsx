@@ -5,6 +5,7 @@ import {
   IconButton,
   styled,
 } from '@mui/material';
+import { useMemo } from 'react';
 
 import {
   AppPage,
@@ -36,8 +37,10 @@ export default function Footer() {
     setAppPage,
   } = useAppPageContext();
 
+  const currentPageIndex = useMemo(() => Object.values(AppPage).findIndex((el) => el === appPage), [appPage]);
+
   const handleArrowClick = (direction: ArrowDirection) => {
-    const newPage = direction === 'left' ? appPage - 1 : appPage + 1;
+    const newPage = direction === 'left' ? Object.values(AppPage)[currentPageIndex - 1] : Object.values(AppPage)[currentPageIndex + 1];
     setAppPage(newPage);
   };
 
@@ -45,13 +48,14 @@ export default function Footer() {
     let icon;
     let Wrapper;
     if (direction === 'left') {
-      if (appPage === AppPage.PATH_SELECT) {
+      if (currentPageIndex === 0) {
         return null;
       }
       Wrapper = StyledLeft;
       icon = <ArrowLeft />;
     } else {
-      if (appPage === AppPage.HOLE_INFO) {
+      // minus 2 because there's an UNKNOWN app page
+      if (currentPageIndex >= Object.values(AppPage).length - 2) {
         return null;
       }
       Wrapper = StyledRight;

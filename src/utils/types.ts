@@ -1,3 +1,5 @@
+import { string } from 'yup';
+
 export interface Hole {
   holeNumber: number;
   handicap: number;
@@ -10,3 +12,5 @@ const userEmail: Prisma.UserSelect = {
   email: true,
 }
  */
+
+export type FormikField<T> = { id: T; label: string };

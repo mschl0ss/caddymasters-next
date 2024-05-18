@@ -18,12 +18,14 @@ const headers = {
   Accept: 'application/json',
 };
 
+type Stripped<T> = Omit<T, 'id' | 'createdAt' | 'updatedAt'>;
+
 const getUsers = () => axios.get<{ users: User[] }>('http://localhost:3000/api/users')
   .then(({ data: { users } }) => users);
 
 export const useGetUsersQuery = () => useQuery({ queryKey: [QueryKey.USERS], queryFn: getUsers });
 
-export type CreateUserBody = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+export type CreateUserBody = Stripped<User>;
 const createUser = async (user: CreateUserBody): Promise<void> => axios
   .post(
     'http://localhost:3000/api/users',

@@ -1,11 +1,9 @@
 import {
   Box,
   Button,
-  FormControl,
   styled,
   TextField,
 } from '@mui/material';
-import { User } from '@prisma/client';
 import { useFormik } from 'formik';
 import {
   number,
@@ -13,10 +11,8 @@ import {
   string,
 } from 'yup';
 
-import {
-  CreateUserBody,
-  useCreateUserMutation,
-} from '@/utils/clientApi';
+import { useCreateUserMutation } from '@/utils/clientApi';
+import { FormikField } from '@/utils/types';
 
 const validationSchema = object({
   firstName: string().required(),
@@ -52,7 +48,7 @@ export default function CreateUserForm({ onSettledCb }: Props) {
     onSubmit: (values) => addUser(values),
   });
 
-  const textFields: { id: keyof typeof formik.values; label: string }[] = [
+  const textFields: FormikField<keyof typeof formik.values>[] = [
     { id: 'firstName', label: 'First Name' },
     { id: 'lastName', label: 'Last Name' },
     { id: 'handicap', label: 'Handicap' },
