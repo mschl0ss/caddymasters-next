@@ -18,7 +18,7 @@ const headers = {
   Accept: 'application/json',
 };
 
-type Stripped<T> = Omit<T, 'id' | 'createdAt' | 'updatedAt'>;
+export type Stripped<T> = Omit<T, 'id' | 'createdAt' | 'updatedAt'>;
 
 const getUsers = () => axios.get<{ users: User[] }>('http://localhost:3000/api/users')
   .then(({ data: { users } }) => users);

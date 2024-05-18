@@ -1,9 +1,5 @@
 import { string } from 'yup';
 
-export interface Hole {
-  holeNumber: number;
-  handicap: number;
-}
 /*
 import { Prisma } from '@prisma/client'
 
