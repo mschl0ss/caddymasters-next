@@ -1,33 +1,17 @@
-/*
-name
-
-sloping rating coursePar
-
- holes
- */
-
 import {
   Box,
   Button,
   styled,
-  TextField,
-  Tooltip,
-  Typography,
 } from '@mui/material';
-import {
-  Course,
-} from '@prisma/client';
+import { Course } from '@prisma/client';
 import { useFormik } from 'formik';
 import {
-  ChangeEvent,
   useMemo,
   useState,
 } from 'react';
 import {
   array,
-  number,
   object,
-  string,
 } from 'yup';
 
 import CourseHoleRow, {
@@ -38,10 +22,9 @@ import CourseInfo, {
   courseInfoSchema,
   FormCourseInfo,
 } from '@/components/course-details/CourseInfo';
-import { FormikField } from '@/utils/types';
+import { NumberInputNoArrows } from '@/utils/constants';
 
 const wrapperPadding = 20;
-const ButtonWrapperHeight = 40;
 
 const Wrapper = styled(Box)({
   position: 'relative',
@@ -61,7 +44,7 @@ const CourseInfoWrapper = styled(Box)({
     gridColumnStart: 1,
     gridColumnEnd: 4,
   },
-
+  ...NumberInputNoArrows,
 });
 
 const Divider = styled(Box)(({ theme }) => ({
@@ -76,6 +59,7 @@ const HolesWrapper = styled(Box)({
   maxHeight: '75%',
   overflow: 'scroll',
   padding: wrapperPadding,
+  ...NumberInputNoArrows,
 });
 
 const ButtonWrapper = styled(Box)({
@@ -137,7 +121,6 @@ export default function CourseDetails({ courseId, onClose, openAsForm = true }: 
   return (
     <Wrapper>
       <Button onClick={onClose}>Close</Button>
-
       <form
         style={{ height: `calc(100% - ${wrapperPadding * 2}px)`, overflow: 'scroll' }}
         onSubmit={formik.handleSubmit}
