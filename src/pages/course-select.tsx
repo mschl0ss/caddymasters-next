@@ -16,7 +16,7 @@ import {
 } from 'react';
 
 import CmDialog from '@/components/CmDialog';
-import CourseDetails from '@/components/CourseDetails';
+import CourseDetails from '@/components/course-details/CourseDetails';
 import CreateUserForm from '@/components/CreateUserForm';
 import GameSetupLayout from '@/components/layouts/GameSetupLayout';
 import { ButtonListItem } from '@/components/styledComponents';
@@ -102,8 +102,7 @@ function CourseSelect() {
         timeout={500}
       >
         <Box sx={collapseSx}>
-          <Button onClick={() => setIsDrawerOpen(false)}>Close</Button>
-          <CourseDetails openAsForm />
+          <CourseDetails openAsForm onClose={() => setIsDrawerOpen(false)} />
         </Box>
       </Slide>
     </Box>
