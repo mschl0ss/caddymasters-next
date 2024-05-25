@@ -4,32 +4,36 @@ import {
   styled,
 } from '@mui/material';
 import { Course } from '@prisma/client';
-import { useFormik } from 'formik';
-import {
+import React, {
+  FormEvent,
   useMemo,
+  useReducer,
   useState,
 } from 'react';
-import {
-  array,
-  object,
-} from 'yup';
 
-import CourseHoleRow, {
-  FormHole,
-  holeSchema,
-} from '@/components/course-details/CourseHoleRow';
-import CourseInfo, {
-  courseInfoSchema,
+import {
+  courseFormReducer,
+  CourseFormState,
   FormCourseInfo,
-} from '@/components/course-details/CourseInfo';
-import { NumberInputNoArrows } from '@/utils/constants';
+  FormCourseInfoField,
+  FormCourseInfoValue,
+  FormHole,
+  FormHoleField,
+  FormHoleValue,
+} from '@/components/course-details/CourseFormReducer';
+import CourseHoleRow from '@/components/course-details/CourseHoleRow';
+import CourseInfo from '@/components/course-details/CourseInfo';
+import {
+  NumberInputNoArrows,
+  useDefaultHoles,
+} from '@/utils/constants';
 
 const wrapperPadding = 20;
 
 const Wrapper = styled(Box)({
   position: 'relative',
   height: '100%',
-  boxSizing: 'borderBox',
+  boxSizing: 'border-box',
 });
 
 const CourseInfoWrapper = styled(Box)({
@@ -40,7 +44,7 @@ const CourseInfoWrapper = styled(Box)({
   columnGap: 5,
   padding: `${wrapperPadding}px ${wrapperPadding}px 10px`,
   marginBottom: 10,
-  '& :first-child': {
+  '& :first-of-type': {
     gridColumnStart: 1,
     gridColumnEnd: 4,
   },
@@ -69,11 +73,10 @@ const ButtonWrapper = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
   width: '100%',
-});
-
-const validationSchema = object({
-  courseInfo: courseInfoSchema,
-  holes: array().of(holeSchema).length(18).ensure(),
+  background: 'white',
+  zIndex: 10,
+  boxShadow: '0 -4px 8px 0 rgb(0 0 0 / 14%)',
+  borderRadius: 5,
 });
 
 interface Props {
@@ -82,14 +85,8 @@ interface Props {
   onClose: () => void;
 }
 
-export default function CourseDetails({ courseId, onClose, openAsForm = true }: Props) {
+export default function CourseForm({ courseId, onClose, openAsForm = true }: Props) {
   const [isEditing, setIsEditing] = useState(openAsForm);
-  const defaultHoles: FormHole[] = useMemo(() => Array.from(
-    { length: 18 },
-    (v, i) => ({
-      holeNumber: i + 1,
-    } as FormHole),
-  ), []);
 
   const buttonText = useMemo(() => {
     if (isEditing) {
@@ -98,24 +95,29 @@ export default function CourseDetails({ courseId, onClose, openAsForm = true }: 
     return 'Edit';
   }, [courseId, isEditing]);
   // TODO fetch these
-  const fetchedCourse: Partial<Course> = { id: courseId };
+  const fetchedCourse = undefined as unknown as FormCourseInfo;
   const fetchedHoles = undefined as unknown as FormHole[];
 
-  const formik = useFormik({
-    initialValues: {
-      courseInfo: fetchedCourse,
-      holes: fetchedHoles || defaultHoles,
-    },
-    validationSchema,
-    onSubmit: () => console.log('submitted'),
-  });
-
-  const handleCourseInfoChange = (courseInfo: FormCourseInfo) => {
-    formik.values.courseInfo = courseInfo;
+  const initialState: CourseFormState = {
+    holes: useDefaultHoles(),
   };
 
-  const handleHoleChange = (hole: FormHole) => {
-    formik.values.holes[hole.holeNumber - 1] = hole;
+  const [state, dispatch] = useReducer(courseFormReducer, initialState);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('submitted ', state);
+  };
+
+  const handleCourseInfoChange = (field: FormCourseInfoField, newValue: FormCourseInfoValue) => {
+    dispatch({ type: field, payload: newValue });
+  };
+
+  const handleHoleChange = (holeNumber: number, field: FormHoleField, newValue: FormHoleValue) => {
+    dispatch({
+      type: 'hole',
+      payload: { ...state.holes[holeNumber - 1], ...{ [field]: newValue as number } },
+    });
   };
 
   return (
@@ -123,18 +125,21 @@ export default function CourseDetails({ courseId, onClose, openAsForm = true }: 
       <Button onClick={onClose}>Close</Button>
       <form
         style={{ height: `calc(100% - ${wrapperPadding * 2}px)`, overflow: 'scroll' }}
-        onSubmit={formik.handleSubmit}
+        onSubmit={onSubmit}
       >
         <CourseInfoWrapper>
           <CourseInfo
             handleChange={handleCourseInfoChange}
             isEditing={isEditing}
-            {...formik.values.courseInfo}
+            name={state.name}
+            slope={state.slope}
+            coursePar={state.coursePar}
+            rating={state.rating}
           />
         </CourseInfoWrapper>
         <Divider />
         <HolesWrapper>
-          {formik.values.holes.map(({ holeNumber, par, handicap }) => (
+          {state.holes.map(({ holeNumber, par, handicap }) => (
             <CourseHoleRow isEditing={isEditing} key={holeNumber} holeNumber={holeNumber} handleChange={handleHoleChange} par={par} handicap={handicap} />
           ))}
         </HolesWrapper>

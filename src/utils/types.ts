@@ -1,3 +1,7 @@
+import {
+  Course,
+  Hole,
+} from '@prisma/client';
 import { string } from 'yup';
 
 /*
@@ -9,4 +13,4 @@ const userEmail: Prisma.UserSelect = {
 }
  */
 
-export type FormikField<T> = { id: T; label: string };
+export type FormField<T> = { id: T; label: string };

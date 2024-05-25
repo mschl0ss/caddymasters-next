@@ -29,6 +29,7 @@
     "modules-newlines/import-declaration-newline": "error",
     "@typescript-eslint/no-unused-vars": "warn",
     "react/jsx-no-useless-fragment": "off",
+    "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": [
       1,
       {

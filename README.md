@@ -13,12 +13,8 @@ $ yarn prisma validate
 
 # LAST TIME...
 
-Added holes
-
-- validation isn't working 
-  - how to key into formik values to validate array items? what should id be?
-
-After that's fixed
-- save course
+Ripped out formik
+added reducer pattern
+wired up state in course form
 
 

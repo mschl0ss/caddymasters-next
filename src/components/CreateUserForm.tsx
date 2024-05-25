@@ -12,7 +12,7 @@ import {
 } from 'yup';
 
 import { useCreateUserMutation } from '@/utils/clientApi';
-import { FormikField } from '@/utils/types';
+import { FormField } from '@/utils/types';
 
 const validationSchema = object({
   firstName: string().required(),
@@ -48,7 +48,7 @@ export default function CreateUserForm({ onSettledCb }: Props) {
     onSubmit: (values) => addUser(values),
   });
 
-  const textFields: FormikField<keyof typeof formik.values>[] = [
+  const textFields: FormField<keyof typeof formik.values>[] = [
     { id: 'firstName', label: 'First Name' },
     { id: 'lastName', label: 'Last Name' },
     { id: 'handicap', label: 'Handicap' },

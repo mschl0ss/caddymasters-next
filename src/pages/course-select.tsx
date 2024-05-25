@@ -4,7 +4,6 @@ import {
   CircularProgress,
   Slide,
   SxProps,
-  Typography,
 } from '@mui/material';
 import { Course } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
@@ -15,9 +14,7 @@ import {
   useState,
 } from 'react';
 
-import CmDialog from '@/components/CmDialog';
-import CourseDetails from '@/components/course-details/CourseDetails';
-import CreateUserForm from '@/components/CreateUserForm';
+import CourseForm from '@/components/course-details/CourseForm';
 import GameSetupLayout from '@/components/layouts/GameSetupLayout';
 import { ButtonListItem } from '@/components/styledComponents';
 import {
@@ -54,7 +51,6 @@ function CourseSelect() {
   const collapseSx: SxProps = {
     position: 'absolute',
     bottom: 0,
-    border: 'solid 1px green;',
     // borderRadius: '25px',
     height: '100%',
     width: '100%',
@@ -65,7 +61,6 @@ function CourseSelect() {
     position: 'relative',
     height: 'calc(100% - 64px)',
     borderRadius: '0 0 25px 25px',
-    backgroundColor: 'rgba(0,0,0,0.1)',
     overflow: 'hidden',
   };
 
@@ -102,7 +97,7 @@ function CourseSelect() {
         timeout={500}
       >
         <Box sx={collapseSx}>
-          <CourseDetails openAsForm onClose={() => setIsDrawerOpen(false)} />
+          <CourseForm openAsForm onClose={() => setIsDrawerOpen(false)} />
         </Box>
       </Slide>
     </Box>

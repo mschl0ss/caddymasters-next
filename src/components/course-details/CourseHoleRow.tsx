@@ -1,53 +1,34 @@
 import {
   Box,
   TextField,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import { Hole } from '@prisma/client';
-import { useFormik } from 'formik';
 import { ChangeEvent } from 'react';
+
 import {
-  number,
-  object,
-} from 'yup';
-
-import { FormikField } from '@/utils/types';
-
-export const holeSchema = object({
-  holeNumber: number().required(),
-  handicap: number().required(),
-  par: number().required(),
-});
-
-type HoleField = keyof typeof holeSchema.fields;
-
-export type FormHole = { holeNumber: Hole['holeNumber']; par?: Hole['par']; handicap?: Hole['handicap'] };
+  FormHole,
+  FormHoleField,
+  FormHoleValue,
+} from '@/components/course-details/CourseFormReducer';
+import {
+  FormField,
+} from '@/utils/types';
 
 type Props = {
   isEditing: boolean;
-  handleChange: (hole: FormHole) => void;
+  handleChange: (holeNumber: number, field: FormHoleField, newValue: FormHoleValue) => void;
 } & FormHole;
 
-export default function CourseHoleRow({
-  isEditing, handleChange, holeNumber, par, handicap,
-}: Props) {
-  const formik = useFormik({
-    initialValues: {
-      holeNumber,
-      par,
-      handicap,
-    },
-    validationSchema: holeSchema,
-    onSubmit: () => undefined,
-  });
+export default function CourseHoleRow(props: Props) {
+  const { isEditing, handleChange, holeNumber } = props;
 
-  formik.handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    formik.setFieldValue(e.target.id, e.target.value);
-    handleChange(formik.values);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!Number.isNaN(Number(e.target.value))) {
+      handleChange(holeNumber, e.target.id as FormHoleField, Number(e.target.value));
+    }
   };
 
-  const holeFields: FormikField<HoleField>[] = [
+  const holeFields: FormField<FormHoleField>[] = [
     { id: 'holeNumber', label: 'Hole #' },
     { id: 'handicap', label: 'Handicap' },
     { id: 'par', label: 'Par' },
@@ -58,31 +39,23 @@ export default function CourseHoleRow({
       {holeFields.map(({ id, label }) => (
         isEditing
           ? (
-            <Tooltip
+            <TextField
               key={id}
-              describeChild
-              title={formik.touched[id] && formik.errors[id]}
-              disableFocusListener={!formik.touched[id] && Boolean(formik.errors[id])}
-              disableHoverListener={!formik.touched[id] && Boolean(formik.errors[id])}
-              disableTouchListener={!formik.touched[id] && Boolean(formik.errors[id])}
-            >
-              <TextField
-                type="number"
-                disabled={id === 'holeNumber'}
-                variant="outlined"
-                size="small"
-                fullWidth
-                id={id}
-                name={id}
-                label={label}
-                aria-label={label}
-                value={formik.values[id] || ''}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched[id] && Boolean(formik.errors[id])}
-              />
-            </Tooltip>
-          ) : <Typography key={id}>{formik.values[id]}</Typography>
+              type="number"
+              disabled={id === 'holeNumber'}
+              variant="outlined"
+              size="small"
+              fullWidth
+              id={id}
+              name={id}
+              label={label}
+              aria-label={label}
+              value={props[id] || ''}
+              onChange={onChange}
+              onBlur={() => undefined}
+              error={false}
+            />
+          ) : <Typography key={id}>{props[id]}</Typography>
       ))}
     </Box>
   );
